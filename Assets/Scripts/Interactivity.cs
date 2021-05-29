@@ -10,6 +10,7 @@ public class Interactivity : MonoBehaviour
     private float reticleFillAmount;
     private GameObject currentObject;
     private GameObject compareObject;
+    private AudioSource soundPlayer;
     public int CurrentIndex;
     public GameObject MenuPanel;
     public GameObject CompareMenuPanel;
@@ -18,9 +19,11 @@ public class Interactivity : MonoBehaviour
     public Vector3 PositionToRenderAt;
     public Image ReticleImage;
     public Camera FirstPersonCamera;
+    public AudioClip MenuPop;
+    public AudioClip RenderEntityCue;
     void Start()
     {
-        
+        soundPlayer = GetComponent<AudioSource>();
     }
     public void RenderEntity(GameObject objectToSpawn)
     {
@@ -41,6 +44,7 @@ public class Interactivity : MonoBehaviour
         currentObject = Instantiate(objectToSpawn) as GameObject;
         currentObject.transform.position = PositionToRenderAt;
         CurrentIndex = currentObject.GetComponent<Entity>().EntityIndex;
+        soundPlayer.PlayOneShot(RenderEntityCue);
 
     }
     public GameObject GetCurrentEntity()
@@ -65,12 +69,14 @@ public class Interactivity : MonoBehaviour
         }
         CompareMenuPanel.SetActive(false);
         MenuPanel.SetActive(true);
+        soundPlayer.PlayOneShot(MenuPop);
     }
     public void CompareCall()
     {
         CompareButton.SetActive(false);
         ResetButton.SetActive(false);
         CompareMenuPanel.SetActive(true);
+        soundPlayer.PlayOneShot(MenuPop);
     }
     void Update()
     {
